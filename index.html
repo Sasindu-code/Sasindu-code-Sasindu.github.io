@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sasidu Amarakoon – Creative Technologist</title>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --bg: #0a0a0f;
+        --glass: rgba(255, 255, 255, 0.06);
+        --glass-border: rgba(255, 255, 255, 0.12);
+        --text: #f5f5f7;
+        --text-muted: #a1a1aa;
+        --accent1: #ff4d6d;
+        --accent2: #7b61ff;
+        --accent3: #00e5ff;
+        --blur: 20px;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        line-height: 1.5;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+        background: 
+            radial-gradient(circle at 20% 20%, rgba(123, 97, 255, 0.4) 0%, transparent 50%),
+            radial-gradient(circle at 80% 30%, rgba(255, 77, 109, 0.35) 0%, transparent 50%),
+            radial-gradient(circle at 40% 80%, rgba(0, 229, 255, 0.3) 0%, transparent 50%),
+            var(--bg);
+        animation: bgShift 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgShift {
+        0% { transform: scale(1) rotate(0deg); }
+        100% { transform: scale(1.2) rotate(3deg); }
+    }
+
+    /* Animated grain overlay */
+    body::after {
+        content: '';
+        position: fixed;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        z-index: -1;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        animation: grain 8s steps(10) infinite;
+        pointer-events: none;
+    }
+
+    @keyframes grain {
+        0%, 100% { transform: translate(0, 0); }
+        10% { transform: translate(-5%, -10%); }
+        30% { transform: translate(3%, -15%); }
+        50% { transform: translate(12%, 9%); }
+        70% { transform: translate(9%, 4%); }
+        90% { transform: translate(-1%, 7%); }
+    }
+
+    /* Utilities */
+    .glass {
+        background: var(--glass);
+        backdrop-filter: blur(var(--blur));
+        -webkit-backdrop-filter: blur(var(--blur));
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    section {
+        padding: 8rem 0;
+        position: relative;
+    }
+
+    h1, h2, h3 {
+        font-weight: 800;
+        letter-spacing: -0.03em;
+    }
+
+    /* Nav */
+    nav {
+        position: fixed;
+        top: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    nav:hover {
+        transform: translateX(-50%) translateY(-2px);
+        box-shadow: 0 20px 40px -15px rgba(123, 97, 255, 0.5);
+    }
+
+    nav ul {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+        align-items: center;
+    }
+
+    nav a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        position: relative;
+        transition: color 0.3s;
+    }
+
+    nav a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--accent2), var(--accent1));
+        transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    nav a:hover {
+        color: #fff;
+    }
+
+    nav a:hover::after {
+        width: 100%;
+    }
+
+    /* Hero */
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding-top: 6rem;
+    }
+
+    .hero-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 4rem;
+        align-items: center;
+        width: 100%;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(3.5rem, 10vw, 8rem);
+        line-height: 0.95;
+        margin-bottom: 2rem;
+        background: linear-gradient(135deg, #fff 0%, var(--accent3) 50%, var(--accent1) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradientText 6s ease infinite;
+        background-size: 200% 200%;
+    }
+
+    @keyframes gradientText {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+    }
+
+    .hero-content p {
+        font-size: 1.25rem;
+        color: var(--text-muted);
+        max-width: 500px;
+        margin-bottom: 3rem;
+    }
+
+    .hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 2rem;
+        border-radius: 100px;
+        background: linear-gradient(135deg, var(--accent2), var(--accent1));
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-cta::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .hero-cta:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 20px 40px -10px rgba(123, 97, 255, 0.6);
+    }
+
+    .hero-cta:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .hero-visual {
+        position: relative;
+        height: 500px;
+    }
+
+    .floating-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(40px);
+        animation: float 8s ease-in-out infinite;
+    }
+
+    .orb1 {
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, var(--accent2), transparent);
+        top: 10%;
+        right: 10%;
+        animation-delay: 0s;
+    }
+
+    .orb2 {
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, var(--accent1), transparent);
+        bottom: 20%;
+        left: 10%;
+        animation-delay: 2s;
+    }
+
+    .orb3 {
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(circle, var(--accent3), transparent);
+        top: 50%;
+        left: 40%;
+        animation-delay: 4s;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(30px, -30px) scale(1.1); }
+        66% { transform: translate(-20px, 20px) scale(0.9); }
+    }
+
+    /* Section Header */
+    .section-header {
+        margin-bottom: 4rem;
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .section-header h2 {
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        background: linear-gradient(135deg, #fff, var(--text-muted));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .section-header p {
+        color: var(--text-muted);
+        max-width: 400px;
+    }
+
+    /* Bento Grid Projects */
+    .bento-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-auto-rows: 280px;
+        gap: 1.5rem;
+    }
+
+    .bento-item {
+        padding: 2.5rem;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .bento-item::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(123, 97, 255, 0), rgba(255, 77, 109, 0));
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+
+    .bento-item:hover {
+        transform: translateY(-8px);
+        border-color: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 30px 60px -20px rgba(123, 97, 255, 0.4);
+    }
+
+    .bento-item:hover::before {
+        opacity: 0.15;
+        background: linear-gradient(135deg, var(--accent2), var(--accent1));
+    }
+
+    .bento-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
+    .bento-item:nth-child(2) { grid-column: span 5; }
+    .bento-item:nth-child(3) { grid-column: span 5; }
+    .bento-item:nth-child(4) { grid-column: span 4; }
+    .bento-item:nth-child(5) { grid-column: span 4; }
+    .bento-item:nth-child(6) { grid-column: span 4; }
+
+    .bento-item h3 {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+        z-index: 1;
+    }
+
+    .bento-item p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        z-index: 1;
+    }
+
+    .bento-tag {
+        display: inline-block;
+        padding: 0.4rem 1rem;
+        border-radius: 100px;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        z-index: 1;
+        width: fit-content;
+    }
+
+    .bento-item:nth-child(1) h3 { font-size: 2.5rem; }
+    .bento-item:nth-child(1) .bento-tag { 
+        background: linear-gradient(135deg, var(--accent2), var(--accent1));
+    }
+
+    /* Skills Horizontal Scroll */
+    .skills-wrapper {
+        overflow: hidden;
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
+    .skills-track {
+        display: flex;
+        gap: 1.5rem;
+        animation: scroll 30s linear infinite;
+        width: fit-content;
+    }
+
+    .skills-track:hover {
+        animation-play-state: paused;
+    }
+
+    @keyframes scroll {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    .skill-card {
+        min-width: 280px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .skill-card:hover {
+        transform: translateY(-10px) scale(1.05);
+        border-color: var(--accent2);
+        background: rgba(123, 97, 255, 0.1);
+    }
+
+    .skill-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 1rem;
+        border-radius: 16px;
+        background: linear-gradient(135deg, var(--accent2), var(--accent3));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: 800;
+    }
+
+    .skill-card h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .skill-card p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    /* Floating Contact Card */
+    .contact-section {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .contact-card {
+        max-width: 600px;
+        padding: 4rem;
+        text-align: center;
+        position: relative;
+        animation: floatCard 6s ease-in-out infinite;
+    }
+
+    @keyframes floatCard {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .contact-card h2 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--accent1), var(--accent3));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .contact-card p {
+        color: var(--text-muted);
+        margin-bottom: 2.5rem;
+        font-size: 1.1rem;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .social-link {
+        padding: 1rem 2rem;
+        border-radius: 100px;
+        text-decoration: none;
+        color: var(--text);
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        border: 1px solid var(--glass-border);
+        background: var(--glass);
+    }
+
+    .social-link:hover {
+        transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.15);
+        border-color: var(--accent2);
+        box-shadow: 0 10px 30px -10px rgba(123, 97, 255, 0.5);
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+        .hero-grid {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+        .hero-content p {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-visual {
+            height: 300px;
+            order: -1;
+        }
+
+        .bento-grid {
+            grid-template-columns: repeat(6, 1fr);
+            grid-auto-rows: 240px;
+        }
+
+        .bento-item:nth-child(1) { grid-column: span 6; grid-row: span 1; }
+        .bento-item:nth-child(2) { grid-column: span 6; }
+        .bento-item:nth-child(3) { grid-column: span 6; }
+        .bento-item:nth-child(4) { grid-column: span 3; }
+        .bento-item:nth-child(5) { grid-column: span 3; }
+        .bento-item:nth-child(6) { grid-column: span 6; }
+
+        nav {
+            padding: 0.75rem 1rem;
+            top: 1rem;
+        }
+
+        nav ul {
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        .contact-card {
+            padding: 2.5rem;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .container {
+            padding: 0 1.5rem;
+        }
+
+        .bento-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .bento-item:nth-child(n) {
+            grid-column: span 1;
+        }
+
+        .skill-card {
+            min-width: 240px;
+        }
+    }
+</style>
+</head>
+<body>
+    <nav class="glass">
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="hero" class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <h1>Design.<br>Code.<br>Impact.</h1>
+                    <p>I’m Sasidu Amarakoon — a creative technologist crafting immersive digital experiences that blend design, motion, and code into something unforgettable.</p>
+                    <a href="#work" class="hero-cta">
+                        View My Work
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-orb orb1"></div>
+                    <div class="floating-orb orb2"></div>
+                    <div class="floating-orb orb3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="work" class="work">
+        <div class="container">
+            <div class="section-header">
+                <h2>Selected Work</h2>
+                <p>Projects where design meets engineering. Each one pushes boundaries in interaction, performance, and storytelling.</p>
+            </div>
+            <div class="bento-grid">
+                <div class="bento-item glass">
+                    <div>
+                        <h3>Nova Labs</h3>
+                        <p>WebGL product explorer with real-time 3D configurator. Built with Three.js and custom shaders for a 60fps experience.</p>
+                    </div>
+                    <span class="bento-tag">Featured</span>
+                </div>
+                <div class="bento-item glass">
+                    <div>
+                        <h3>Orbit Finance</h3>
+                        <p>Dashboard redesign with glassmorphic data viz and micro-interactions.</p>
+                    </div>
+                    <span class="bento-tag">UX/UI</span>
+                </div>
+                <div class="bento-item glass">
+                    <div>
+                        <h3>Kinetic Type</h3>
+                        <p>Experimental typography engine powered by user motion and sound.</p>
+                    </div>
+                    <span class="bento-tag">Experiment</span>
+                </div>
+                <div class="bento-item glass">
+                    <div>
+                        <h3>Voyage</h3>
+                        <p>Travel app with AI itinerary generation</p>
+                    </div>
+                    <span class="bento-tag">Mobile</span>
+                </div>
+                <div class="bento-item glass">
+                    <div>
+                        <h3>Atelier</h3>
+                        <p>Headless e-commerce for design studio</p>
+                    </div>
+                    <span class="bento-tag">Web</span>
+                </div>
+                <div class="bento-item glass">
+                    <div>
+                        <h3>Synth OS</h3>
+                        <p>Browser-based music workstation with Web Audio API</p>
+                    </div>
+                    <span class="bento-tag">Tool</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-header">
+                <h2>Capabilities</h2>
+                <p>Tools and technologies I use to bring impossible ideas to life. Always learning, always shipping.</p>
+            </div>
+        <div class="skills-wrapper">
+            <div class="skills-track">
+                <div class="skill-card glass">
+                    <div class="skill-icon">JS</div>
+                    <h3>JavaScript</h3>
+                    <p>ES6+, TypeScript, Node</p>
+                </div>
+                <div class="skill-card glass">
+                    <div class="skill-icon">⚛</div>
+                    <h3>React</h3>
+                    <p>Next.js, R3F, Zustand</p>
+                </div>
+                <div class="skill-card glass">
+                    <div class="skill-icon">🎨</div>
+                    <h3>Design</h3>
+                    <p>Figma, Motion, 3D</p>
+                </div>
+                <div class="skill-card glass">
+                    <div class="skill-icon">GL</div>
+                    <h3>WebGL</h3>
+                    <p>Three.js, Shaders, R3F</p>
+                </div>
+                <div class="skill-card glass">
+                    <div class="skill-icon">◆</div>
+                    <h3>Creative Code</h3>
+                    <p>Canvas, p5.js, Theatre</p>
+                </div>
+                <div class="skill-card glass">
+                    <div class="skill-icon">⚡</div>
+                    <h3>Performance</h3>
+                    <p>Core Web Vitals, WASM</p>
+                </div>
+                <!-- Duplicate for infinite scroll -->
+                <div class="skill-card glass">
+                    <div class="skill-icon">JS</div>
+                    <h3>JavaScript</h3>
+                    <p>ES6+, TypeScript, Node</p>
+                </div>
+                <div class="skill-card glass">
+                    <div class="skill-icon">⚛</div>
+                    <h3>React</h3>
+                    <p>Next.js, R3F, Zustand</p>
+                </div>
+                <div class="skill-card glass">
+                    <div class="skill-icon">🎨</div>
+                    <h3>Design</h3>
+                    <p>Figma, Motion, 3D</p>
+                </div>
+                <div class="skill-card glass">
+                    <div class="skill-icon">GL</div>
+                    <h3>WebGL</h3>
+                    <p>Three.js, Shaders, R3F</p>
+                </div>
+                <div class="skill-card glass">
+                    <div class="skill-icon">◆</div>
+                    <h3>Creative Code</h3>
+                    <p>Canvas, p5.js, Theatre</p>
+                </div>
+                <div class="skill-card glass">
+                    <div class="skill-icon">⚡</div>
+                    <h3>Performance</h3>
+                    <p>Core Web Vitals, WASM</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="contact-card glass">
+                <h2>Let’s Build Something Unreal</h2>
+                <p>Have a wild idea? Need to stand out? I’m always down to collaborate on projects that push the web forward.</p>
+                <div class="social-links">
+                    <a href="mailto:hello@alexrae.design" class="social-link">Email</a>
+                    <a href="#" class="social-link">Twitter</a>
+                    <a href="#" class="social-link">Github</a>
+                    <a href="#" class="social-link">Dribbble</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Alex Rae. Crafted with intention and a lot of CSS.</p>
+        </div>
+    </footer>
+</body>
+</html>
